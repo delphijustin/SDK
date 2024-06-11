@@ -1,0 +1,57 @@
+unit about32;
+
+interface
+
+uses Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,shellapi,
+  Buttons, ExtCtrls;
+
+type
+  TAboutBox = class(TForm)
+    Panel1: TPanel;
+    ProgramIcon: TImage;
+    ProductName: TLabel;
+    Version: TLabel;
+    Comments: TLabel;
+    OKButton: TButton;
+    Image1: TImage;
+    Label1: TLabel;
+    AppType: TLabel;
+    procedure OKButtonClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+  fmtVer,fmtName:String;
+    { Private declarations }
+  public
+  procedure Display(const appname,scomments:String;v1,v2,v3,v4:Byte);
+    { Public declarations }
+  end;
+
+var
+  AboutBox: TAboutBox;
+
+implementation
+
+{$R *.DFM}
+procedure taboutbox.Display;
+begin
+productname.Caption :=format(fmtname,[appname]);
+version.Caption :=format(fmtver,[v1,v2,v3,v4]);
+comments.Caption :=scomments;
+show;
+end;
+procedure TAboutBox.OKButtonClick(Sender: TObject);
+begin
+close;
+end;
+
+procedure TAboutBox.FormCreate(Sender: TObject);
+var thisfile:array[0..max_path]of char;
+begin
+fmtname:=productname.Caption;fmtver:=version.Caption;
+getmodulefilename(hinstance,thisfile,high(Thisfile));
+apptype.Caption :=format(apptype.caption,[8*Sizeof(pointer)]);
+programicon.Picture.Icon.Handle :=ExtractIcon(HINSTANCE,thisfile,0);
+end;
+
+end.
+
